@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install paho-mqtt
 
 RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher/rtlamr
+RUN git clone https://github.com/bemasher/rtltcp.git /go/src/github.com/bemasher/rtltcp
 
 WORKDIR /go/src/github.com/bemasher/rtlamr
 ADD metermon.py .
