@@ -17,6 +17,7 @@ MQTT_TOPIC_PREFIX = os.environ['MQTT_TOPIC_PREFIX']
 RTL_TCP_SERVER    = os.environ['RTL_TCP_SERVER']
 RTLAMR_MSGTYPE    = os.environ['RTLAMR_MSGTYPE']
 RTLAMR_FILTERID   = os.environ['RTLAMR_FILTERID']
+METERMON_SEND_RAW = os.environ['METERMON_SEND_RAW']
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -71,4 +72,6 @@ while True:
     if msg['Consumption'] > 0:        
         client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
         print(json.dumps(msg)) # also print
-    
+    # send raw json message if enabled
+    if METERMON_SEND_RAW:
+        client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data)) # publish
