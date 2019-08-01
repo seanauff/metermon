@@ -7,13 +7,14 @@ All credit for rtlamr goes to bemasher: https://github.com/bemasher/rtlamr
 ### Enviromental Variables
 | Variable          | Default Value | Notes |
 |-------------------|---------------|-------|
-| MQTT_BROKER_HOST  |  127.0.0.1    |       |
-| MQTT_BROKER_PORT  |  1883         |       |
-| MQTT_CLIENT_ID    |  "metermon"   |       |
-| MQTT_USE_AUTH     |  false        |       |
-| MQTT_USERNAME     |               |       |
-| MQTT_PASSWORD     |               |       |
+| MQTT_BROKER_HOST  |  127.0.0.1    |IP or hostname of MQTT broker       |
+| MQTT_BROKER_PORT  |  1883         |Port of MQTT broker       |
+| MQTT_CLIENT_ID    |  "metermon"   |Change this if the default is already in use by another client       |
+| MQTT_USE_AUTH     |  false        |Use authentication to connect. TLS not currently supported       |
+| MQTT_USERNAME     |               |Username for connecting to MQTT broker when using auth       |
+| MQTT_PASSWORD     |               |Password for connecting to MQTT broker when using auth       |
 | MQTT_TOPIC_PREFIX | "metermon"    |       |
 | RTL_TCP_SERVER    |127.0.0.1:1234 |       |
-| RTLAMR_MSGTYPE    | "all"         |       |
-| RTLAMR_FILTERID   |               |       |
+| RTLAMR_MSGTYPE    | "all"         |see https://github.com/bemasher/rtlamr/wiki/Configuration       |
+| RTLAMR_FILTERID   |               |see https://github.com/bemasher/rtlamr/wiki/Configuration       |
+| METERMON_SEND_RAW | false         |set to ```true``` to enable sending the raw json from rtlamr on another topic      |
