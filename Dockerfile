@@ -26,7 +26,7 @@ ENV MQTT_BROKER_HOST  = 127.0.0.1 \
     MQTT_PASSWORD     = "" \
     MQTT_TOPIC_PREFIX = "metermon" \
     RTL_TCP_SERVER    = 127.0.0.1 \
-    RTLAMR_MSGTYPE    = "all"\
+    RTLAMR_MSGTYPE    = "scm, scm+" \
     RTLAMR_FILTERID   = ""
 
 ENTRYPOINT ["python", "./metermon.py"]
