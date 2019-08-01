@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     git
 
-RUN pip install paho-mqtt
+RUN pip install setuptools paho-mqtt
 
 RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher/rtlamr
 
