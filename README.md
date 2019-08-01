@@ -15,5 +15,6 @@ All credit for rtlamr goes to bemasher: https://github.com/bemasher/rtlamr
 | MQTT_PASSWORD     |               |       |
 | MQTT_TOPIC_PREFIX | "metermon"    |       |
 | RTL_TCP_SERVER    |127.0.0.1:1234 |       |
-| RTLAMR_MSGTYPE    | "all"         |       |
-| RTLAMR_FILTERID   |               |       |
+| RTLAMR_MSGTYPE    | "all"         |see https://github.com/bemasher/rtlamr/wiki/Configuration       |
+| RTLAMR_FILTERID   |               |see https://github.com/bemasher/rtlamr/wiki/Configuration       |
+| METERMON_SEND_RAW | false         |       |
