@@ -10,9 +10,8 @@ All credit for rtlamr goes to bemasher: https://github.com/bemasher/rtlamr
 | MQTT_BROKER_HOST  |  127.0.0.1    |IP or hostname of MQTT broker       |
 | MQTT_BROKER_PORT  |  1883         |Port of MQTT broker       |
 | MQTT_CLIENT_ID    |  "metermon"   |Change this if the default is already in use by another client       |
-| MQTT_USE_AUTH     |  false        |Use authentication to connect. TLS not currently supported       |
-| MQTT_USERNAME     |               |Username for connecting to MQTT broker when using auth       |
-| MQTT_PASSWORD     |               |Password for connecting to MQTT broker when using auth       |
+| MQTT_USERNAME     |               |Username for connecting to MQTT broker when using auth. TLS not currently supported       |
+| MQTT_PASSWORD     |               |Password for connecting to MQTT broker when using auth. TLS not currently supported       |
 | MQTT_TOPIC_PREFIX | "metermon"    |       |
 | RTL_TCP_SERVER    |127.0.0.1:1234 |       |
 | RTLAMR_MSGTYPE    | "all"         |see https://github.com/bemasher/rtlamr/wiki/Configuration       |
