@@ -1,6 +1,6 @@
 FROM golang:1.9.2
 
-RUN apt-get update && apt-get install -y --no-install-recomends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python-pip \
     wget \
     git
