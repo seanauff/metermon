@@ -10,7 +10,6 @@ import paho.mqtt.client as mqtt
 MQTT_BROKER_HOST  = os.environ['MQTT_BROKER_HOST']
 MQTT_BROKER_PORT  = os.environ['MQTT_BROKER_PORT']
 MQTT_CLIENT_ID    = os.environ['MQTT_CLIENT_ID']
-MQTT_USE_AUTH     = os.environ['MQTT_USE_AUTH']
 MQTT_USERNAME     = os.environ['MQTT_USERNAME']
 MQTT_PASSWORD     = os.environ['MQTT_PASSWORD']
 MQTT_TOPIC_PREFIX = os.environ['MQTT_TOPIC_PREFIX']
@@ -25,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
 
 # set up mqtt client
 client = mqtt.Client(client_id=MQTT_CLIENT_ID)
-if MQTT_USE_AUTH == True:
+if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
 client.on_connect = on_connect
 
