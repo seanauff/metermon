@@ -18,15 +18,15 @@ ADD metermon.py .
 
 RUN go-wrapper install
 
-ENV MQTT_BROKER_HOST  = 127.0.0.1 \
-    MQTT_BROKER_PORT  = 1883 \
-    MQTT_CLIENT_ID    = "metermon" \
-    MQTT_USERNAME     = "" \
-    MQTT_PASSWORD     = "" \
-    MQTT_TOPIC_PREFIX = "metermon" \
-    RTL_TCP_SERVER    = 127.0.0.1 \
-    RTLAMR_MSGTYPE    = "scm, scm+" \
-    RTLAMR_FILTERID   = "" \
-    METERMON_SEND_RAW = false
+ENV MQTT_BROKER_HOST=127.0.0.1
+ENV MQTT_BROKER_PORT=1883
+ENV MQTT_CLIENT_ID="metermon"
+ENV MQTT_USERNAME=""
+ENV MQTT_PASSWORD=""
+ENV MQTT_TOPIC_PREFIX="metermon"
+ENV RTL_TCP_SERVER=127.0.0.1
+ENV RTLAMR_MSGTYPE="scm, scm+"
+ENV RTLAMR_FILTERID=""
+ENV METERMON_SEND_RAW=false
 
 ENTRYPOINT ["python", "./metermon.py"]
