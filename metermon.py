@@ -7,16 +7,16 @@ import time
 import paho.mqtt.client as mqtt
 
 # read in needed env variables
-MQTT_BROKER_HOST  = os.environ['MQTT_BROKER_HOST']
-MQTT_BROKER_PORT  = os.environ['MQTT_BROKER_PORT']
-MQTT_CLIENT_ID    = os.environ['MQTT_CLIENT_ID']
-MQTT_USERNAME     = os.environ['MQTT_USERNAME']
-MQTT_PASSWORD     = os.environ['MQTT_PASSWORD']
-MQTT_TOPIC_PREFIX = os.environ['MQTT_TOPIC_PREFIX']
-RTL_TCP_SERVER    = os.environ['RTL_TCP_SERVER']
-RTLAMR_MSGTYPE    = os.environ['RTLAMR_MSGTYPE']
-RTLAMR_FILTERID   = os.environ['RTLAMR_FILTERID']
-METERMON_SEND_RAW = os.environ['METERMON_SEND_RAW']
+MQTT_BROKER_HOST  = os.getenv('MQTT_BROKER_HOST',"127.0.0.1")
+MQTT_BROKER_PORT  = int(os.getenv('MQTT_BROKER_PORT',1883))
+MQTT_CLIENT_ID    = os.getenv('MQTT_CLIENT_ID',"metermon")
+MQTT_USERNAME     = os.getenv('MQTT_USERNAME',"")
+MQTT_PASSWORD     = os.getenv('MQTT_PASSWORD',"")
+MQTT_TOPIC_PREFIX = os.getenv('MQTT_TOPIC_PREFIX',"metermon")
+RTL_TCP_SERVER    = os.getenv('RTL_TCP_SERVER',"127.0.0.1")
+RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"scm, scm+")
+RTLAMR_FILTERID   = os.getenv('RTLAMR_FILTERID',"")
+METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -72,5 +72,5 @@ while True:
         client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
         print(json.dumps(msg)) # also print
     # send raw json message if enabled
-    if METERMON_SEND_RAW:
+    if METERMON_SEND_RAW.lower() == "true":
         client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data)) # publish
