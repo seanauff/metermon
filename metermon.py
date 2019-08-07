@@ -20,18 +20,28 @@ METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    # print connection statement
+    print(f"Connected to broker at {MQTT_BROKER_HOST}:{MQTT_BROKER_PORT} with result code {rc}: "+mqtt.connack_string(rc))
+
+    # set mqtt status message
+    client.publish(MQTT_TOPIC_PREFIX+"/status",payload="Online",qos=1,retain=True)
+
+def on_disconnect(client, userdata, rc):
+    if rc != 0:
+        print(f"Unexpected disconnection from broker (RC={rc}). Attempting to reconnect...")
 
 # set up mqtt client
 client = mqtt.Client(client_id=MQTT_CLIENT_ID)
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
-client.on_connect = on_connect
+    print("Username and password set.")
+client.will_set(MQTT_TOPIC_PREFIX+"/status", payload="Offline", qos=1, retain=True) # set LWT     
+client.on_connect = on_connect # on connect callback
+client.on_disconnect = on_disconnect # on disconnect callback
 
 # connect to broker
 client.connect(MQTT_BROKER_HOST, port=MQTT_BROKER_PORT)
 client.loop_start()
-client.publish(MQTT_TOPIC_PREFIX+"/status","Online")
 
 # start RTLAMR
 proc = subprocess.Popen(['rtlamr', '-server='+RTL_TCP_SERVER,'-msgtype='+RTLAMR_MSGTYPE, '-filterid='+RTLAMR_FILTERID,'-format=json','-unique=true'],stdout=subprocess.PIPE)
