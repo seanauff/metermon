@@ -54,10 +54,13 @@ while True:
     data=json.loads(line)
     msg=json.loads('{"Protocol":"Unknown","Type":"Unknown","ID":"Unknown","Consumption":0,"Unit":"Unknown"}')
 
-    # read data, create json, and publish MQTT message for every meter message received
+    # read data, create json objects, and publish MQTT message for every meter message received
+
+    # set Protocol
+    msg['Protocol'] = data['Type']
+
     # SCM messages
-    if data['Type'] == "SCM":
-        msg['Protocol'] = "SCM"
+    if msg['Protocol'] == "SCM":
         msg['Type'] = str(data['Message']['Type'])
         msg['ID'] = str(data['Message']['ID'])
         if data['Message']['Type'] in (4,5,7,8): # electric meter
@@ -67,8 +70,7 @@ while True:
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # SCM+ messages
-    elif data['Type'] == "SCM+":
-        msg['Protocol'] = "SCM+"
+    elif msg['Protocol'] == "SCM+":
         msg['Type'] = str(data['Message']['EndpointType'])
         msg['ID'] = str(data['Message']['EndpointID'])
         if data['Message']['EndpointType'] in (4,5,7,8): # electric meter
@@ -78,29 +80,25 @@ while True:
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # IDM messages
-    elif data['Type'] == "IDM":
-        msg['Protocol'] = "IDM"
+    elif msg['Protocol'] == "IDM":
         msg['Type'] = str(data['Message']['ERTType'])
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
         msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
         msg['Unit'] = "kWh"      
     # NetIDM messages
-    elif data['Type'] == "NetIDM":
-        msg['Protocol'] = "NetIDM"
+    elif msg['Protocol'] == "NetIDM":
         msg['Type'] = str(data['Message']['ERTType'])
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
         msg['Consumption'] = data['Message']['LastConsumptionNet'] / 100.0 # convert to kWh
         msg['Unit'] = "kWh"
     # R900 messages
-    elif data['Type'] == "R900":
-        msg['Protocol'] = "R900"
+    elif msg['Protocol'] == "R900":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
         msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
         msg['Unit'] = "gal"
     # R900bcd messages
-    elif data['Type'] == "R900BCD":
-        msg['Protocol'] = "R900BCD"
+    elif msg['Protocol'] == "R900BCD":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
         msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
