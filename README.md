@@ -42,6 +42,10 @@ The JSON message has a single level with the following keys:
 
 If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/raw` topic.
 
+### Status Messages
+
+Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic with retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
+
 ## Running via Docker
 
 Pull the image. If using raspberry pi or similar use `arm` in place of `[tag]`. The `latest` tag will pull the `amd64` image:
