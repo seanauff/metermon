@@ -14,7 +14,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 3. Subscribe to the mqtt output topic, `metermon/output`, with the data consumer of your choice.
 
-4. Process with your data consumer of choice. An [example telegraf config](../telegraf_example.conf) is provided.
+4. Process with your data consumer of choice. An [example telegraf config](/telegraf_example.conf) is provided.
 
 ## Running via Docker
 
