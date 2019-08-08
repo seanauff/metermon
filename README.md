@@ -44,7 +44,7 @@ If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will 
 
 ### Status Messages
 
-Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic with retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
+Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic via retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
 
 ## Running via Docker
 
