@@ -81,7 +81,7 @@ Clone the repository and build the image:
 
 ```shell
 git clone https://github.com/seanauff/metermon.git
-docker build -t seanauff/metermon WOL-proxy
+docker build -t seanauff/metermon metermon
 ```
 
 [rtlamr]: https://github.com/bemasher/rtlamr
