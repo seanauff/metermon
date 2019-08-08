@@ -77,6 +77,17 @@ while True:
         elif data['Message']['EndpointType'] in (7,9,12): # gas meter
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
+    # IDM messages
+    elif data['Type'] == "IDM":
+        msg['Protocol'] = "IDM"
+        msg['Type'] = str(data['Message']['ERTType'])
+        msg['ID'] = str(data['Message']['ERTSerialNumber'])
+        if data['Message']['ERTType'] in (4,5,7,8): # electric meter
+            msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
+            msg['Unit'] = "kWh"
+        elif data['Message']['ERTType'] in (7,9,12): # gas meter
+            msg['Consumption'] = data['Message']['LastConsumptionCount']
+            msg['Unit'] = "ft^3"
     # filter out cases where consumption value is negative        
     if msg['Consumption'] > 0:        
         client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
