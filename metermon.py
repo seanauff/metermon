@@ -70,6 +70,10 @@ while True:
             msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
+        elif data['Message']['Type'] in (3,11,13): # water meter
+            msg['Type'] = "Water"
+            msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+            msg['Unit'] = "gal"
     # SCM+ messages
     elif msg['Protocol'] == "SCM+":
         msg['ID'] = str(data['Message']['EndpointID'])
@@ -81,6 +85,10 @@ while True:
             msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
+        elif data['Message']['EndpointType'] in (3,11,13): # water meter
+            msg['Type'] = "Water"
+            msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+            msg['Unit'] = "gal"
     # IDM messages
     elif msg['Protocol'] == "IDM":
         msg['Type'] = "Electric"
