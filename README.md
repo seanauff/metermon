@@ -33,7 +33,7 @@ The JSON message has a single level with the following keys:
 |Key         |Example     |Description|
 |------------|------------|-----------|
 |Protocol    | SCM        |The protocol of the received message. See [here](https://github.com/bemasher/rtlamr/wiki/Protocol) for the list.          |
-|Type        |  5         |The meter type of the received message. See [here](https://github.com/bemasher/rtlamr/blob/master/meters.md).           |
+|Type        | Electric   |The meter type of the received message, converted to generic utility type, e.g. "Electric", "Gas", or "Water". See [here](https://github.com/bemasher/rtlamr/blob/master/meters.md) for mapping of numeric ERT type.           |
 |ID          |29163678    |The unique ID of the meter the received message originated from.           |
 |Consumption |96948.54    |The current consumption value in the received message, processed into standard units (Ex.: electric meters report in 1/100 kWh, metermon divides this value by 100 to get kWh).            |
 |Unit        | kWh        |The unit that metermon has converted the value to. Metermon decides this by knowing the type of meter and/or the protocol.           |
