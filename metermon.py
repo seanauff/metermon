@@ -82,23 +82,15 @@ while True:
         msg['Protocol'] = "IDM"
         msg['Type'] = str(data['Message']['ERTType'])
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        if data['Message']['ERTType'] in (4,5,7,8): # electric meter
-            msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
-            msg['Unit'] = "kWh"
-        elif data['Message']['ERTType'] in (7,9,12): # gas meter
-            msg['Consumption'] = data['Message']['LastConsumptionCount']
-            msg['Unit'] = "ft^3"
+        msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
+        msg['Unit'] = "kWh"      
     # NetIDM messages
     elif data['Type'] == "NetIDM":
         msg['Protocol'] = "NetIDM"
         msg['Type'] = str(data['Message']['ERTType'])
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        if data['Message']['ERTType'] in (4,5,7,8): # electric meter
-            msg['Consumption'] = data['Message']['LastConsumptionNet'] / 100.0 # convert to kWh
-            msg['Unit'] = "kWh"
-        elif data['Message']['ERTType'] in (7,9,12): # gas meter (Net gas meters probably don't exist?)
-            msg['Consumption'] = data['Message']['LastConsumptionNet']
-            msg['Unit'] = "ft^3"
+        msg['Consumption'] = data['Message']['LastConsumptionNet'] / 100.0 # convert to kWh
+        msg['Unit'] = "kWh"
     # R900 messages
     elif data['Type'] == "R900":
         msg['Protocol'] = "R900"
