@@ -2,7 +2,7 @@
 
 Metermon is a dockerized [rtlamr] wrapper that connects to an existing rtl_tcp instance and outputs formatted messages over MQTT for consumption by other software (e.g. telegraf for storage in influxdb and display in grafana).
 
-The script can be run using docker (takes care of all dependencies) or standalone. It is design to run on Raspberry Pi or equivalent.
+The script can be run using docker (takes care of all dependencies) or standalone. It is design to run on Raspberry Pi or similar.
 
 All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
@@ -18,7 +18,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 ## Running via Docker
 
-Pull the image using either `amd64` or `arm` in place of `[tag]`:
+Pull the image. If using raspberry pi or similar use `arm` in place of `[tag]`. The `latest` tag will pull the `amd64` image:
 
 ```shell
 docker pull seanauff/metermon:[tag]
