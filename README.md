@@ -16,6 +16,28 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 4. Process with your data consumer of choice. An [example telegraf config](/telegraf_example.conf) is provided.
 
+## Output format
+
+By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. The `metermon` prefix can be changed to anything by setting the `MQTT_TOPIC_PREFIX` environment variable. Metermon will then send its output messages on `[MQTT_TOPIC_PREFIX]/output`. Note that adding a trailing `/` to `MQTT_TOPIC_PREFIX` will create an empty level.
+
+|Value of MQTT_TOPIC_PREFIX|mqtt output topic|
+|--------------------------|-----------------|
+|`metermon`                |`metermon/output`|
+|`sensors/meters`          |`sensors/meters/output`|
+|`sensors/meters/`          |`sensors/meters//output`|
+
+### JSON keys
+
+|Key         |Example     |Description|
+|------------|------------|-----------|
+|Protocol    | SCM        |The protocol of the received message. See [here](https://github.com/bemasher/rtlamr/wiki/Protocol) for the list.          |
+|Type        |  5         |The meter type of the received message. See [here](https://github.com/bemasher/rtlamr/blob/master/meters.md).           |
+|ID          |29163678    |The unique ID of the meter the received message originated from.           |
+|Consumption |96948.54    |The current consumption value in the received message, processed into standard units (Ex.: electric meters report in 1/100 kWh, metermon divides this value by 100 to get kWh).            |
+|Unit        | kWh        |The unit that metermon has converted the value to. Metermon decides this by knowing the type of meter and/or the protocol.           |
+
+If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] on the mqtt topic
+
 ## Running via Docker
 
 Pull the image. If using raspberry pi or similar use `arm` in place of `[tag]`. The `latest` tag will pull the `amd64` image:
