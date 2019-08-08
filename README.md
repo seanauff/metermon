@@ -71,7 +71,7 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | MQTT_PASSWORD     |               |Password for connecting to MQTT broker when using auth. TLS not currently supported       |
 | MQTT_TOPIC_PREFIX | metermon    |Set the prefix to use for the MQTT topic that messages are sent to       |
 | RTL_TCP_SERVER    |127.0.0.1:1234 |`server:port` that your rtl_tcp instance is listening on |
-| RTLAMR_MSGTYPE    |scm, scm+|List of message types to listen for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)|
+| RTLAMR_MSGTYPE    |all|List of message types to listen for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)|
 | RTLAMR_FILTERID   |               |List of meter IDs to look for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)       |
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr on another topic      |
 

@@ -14,7 +14,7 @@ MQTT_USERNAME     = os.getenv('MQTT_USERNAME',"")
 MQTT_PASSWORD     = os.getenv('MQTT_PASSWORD',"")
 MQTT_TOPIC_PREFIX = os.getenv('MQTT_TOPIC_PREFIX',"metermon")
 RTL_TCP_SERVER    = os.getenv('RTL_TCP_SERVER',"127.0.0.1")
-RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"scm, scm+")
+RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
 RTLAMR_FILTERID   = os.getenv('RTLAMR_FILTERID',"")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 
