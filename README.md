@@ -18,7 +18,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 ## Output format
 
-By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. The `metermon` prefix can be changed to anything by setting the `MQTT_TOPIC_PREFIX` environment variable. Metermon will then send its output messages on `[MQTT_TOPIC_PREFIX]/output`. Note that adding a trailing `/` to `MQTT_TOPIC_PREFIX` will create an empty level.
+By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. The `metermon` prefix can be changed by setting the `MQTT_TOPIC_PREFIX` environment variable. Metermon will then send its output messages on `[MQTT_TOPIC_PREFIX]/output`. Note that adding a trailing `/` to `MQTT_TOPIC_PREFIX` will create an empty level.
 
 |Value of MQTT_TOPIC_PREFIX|mqtt output topic|
 |--------------------------|-----------------|
