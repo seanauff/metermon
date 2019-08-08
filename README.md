@@ -8,11 +8,13 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 ## Usage
 
-1. Ensure you have a rtl_tcp instance that is listening for new connections.
+1. Ensure you have a rtl_tcp instance that is listening for new connections. I have been using this [docker container](https://github.com/radiowitness/librtlsdr-docker).
 
 2. Run the container or script using instructions below.
 
-3. Subscribe to the output topic, `metermon/output`, with the data consumer of your choice.
+3. Subscribe to the mqtt output topic, `metermon/output`, with the data consumer of your choice.
+
+4. Process with your data consumer of choice. An [example telegraf config](../telegraf_example.conf) is provided.
 
 ## Running via Docker
 
