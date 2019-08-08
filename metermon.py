@@ -99,6 +99,20 @@ while True:
         elif data['Message']['ERTType'] in (7,9,12): # gas meter (Net gas meters probably don't exist?)
             msg['Consumption'] = data['Message']['LastConsumptionNet']
             msg['Unit'] = "ft^3"
+    # R900 messages
+    elif data['Type'] == "R900":
+        msg['Protocol'] = "R900"
+        msg['Type'] = "Water"
+        msg['ID'] = str(data['Message']['ID'])
+        msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+        msg['Unit'] = "gal"
+    # R900bcd messages
+    elif data['Type'] == "R900BCD":
+        msg['Protocol'] = "R900BCD"
+        msg['Type'] = "Water"
+        msg['ID'] = str(data['Message']['ID'])
+        msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+        msg['Unit'] = "gal"
     # filter out cases where consumption value is negative        
     if msg['Consumption'] > 0:        
         client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
