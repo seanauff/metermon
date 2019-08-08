@@ -24,9 +24,11 @@ By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. 
 |--------------------------|-----------------|
 |`metermon`                |`metermon/output`|
 |`sensors/meters`          |`sensors/meters/output`|
-|`sensors/meters/`          |`sensors/meters//output`|
+|`sensors/meters/`         |`sensors/meters//output`|
 
 ### JSON keys
+
+The JSON message has a single level with the following keys:
 
 |Key         |Example     |Description|
 |------------|------------|-----------|
@@ -36,7 +38,7 @@ By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. 
 |Consumption |96948.54    |The current consumption value in the received message, processed into standard units (Ex.: electric meters report in 1/100 kWh, metermon divides this value by 100 to get kWh).            |
 |Unit        | kWh        |The unit that metermon has converted the value to. Metermon decides this by knowing the type of meter and/or the protocol.           |
 
-If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] on the mqtt topic
+If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/raw` topic.
 
 ## Running via Docker
 
