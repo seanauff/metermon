@@ -63,7 +63,7 @@ while True:
         if data['Message']['Type'] in (4,5,7,8): # electric meter
             msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
             msg['Unit'] = "kWh"
-        elif data['Message']['Type'] in (7,9,12): # gas meter
+        elif data['Message']['Type'] in (2,9,12): # gas meter
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # SCM+ messages
@@ -74,7 +74,7 @@ while True:
         if data['Message']['EndpointType'] in (4,5,7,8): # electric meter
             msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
             msg['Unit'] = "kWh"
-        elif data['Message']['EndpointType'] in (7,9,12): # gas meter
+        elif data['Message']['EndpointType'] in (2,9,12): # gas meter
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # IDM messages
