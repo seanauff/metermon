@@ -61,33 +61,35 @@ while True:
 
     # SCM messages
     if msg['Protocol'] == "SCM":
-        msg['Type'] = str(data['Message']['Type'])
         msg['ID'] = str(data['Message']['ID'])
         if data['Message']['Type'] in (4,5,7,8): # electric meter
+            msg['Type'] = "Electric"
             msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
             msg['Unit'] = "kWh"
         elif data['Message']['Type'] in (2,9,12): # gas meter
+            msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # SCM+ messages
     elif msg['Protocol'] == "SCM+":
-        msg['Type'] = str(data['Message']['EndpointType'])
         msg['ID'] = str(data['Message']['EndpointID'])
         if data['Message']['EndpointType'] in (4,5,7,8): # electric meter
+            msg['Type'] = "Electric"
             msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
             msg['Unit'] = "kWh"
         elif data['Message']['EndpointType'] in (2,9,12): # gas meter
+            msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
     # IDM messages
     elif msg['Protocol'] == "IDM":
-        msg['Type'] = str(data['Message']['ERTType'])
+        msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
         msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
         msg['Unit'] = "kWh"      
     # NetIDM messages
     elif msg['Protocol'] == "NetIDM":
-        msg['Type'] = str(data['Message']['ERTType'])
+        msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
         msg['Consumption'] = data['Message']['LastConsumptionNet'] / 100.0 # convert to kWh
         msg['Unit'] = "kWh"
