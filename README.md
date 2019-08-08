@@ -16,7 +16,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 4. Process with your data consumer of choice. An [example telegraf config](/telegraf_example.conf) is provided.
 
-## Output format
+### Output format
 
 By default, metermon outputs JSON messages to the `metermon/output` mqtt topic. The `metermon` prefix can be changed by setting the `MQTT_TOPIC_PREFIX` environment variable. Metermon will then send its output messages on `[MQTT_TOPIC_PREFIX]/output`. Note that adding a trailing `/` to `MQTT_TOPIC_PREFIX` will create an empty level.
 
