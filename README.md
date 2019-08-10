@@ -8,7 +8,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 ## Usage
 
-1. Have a MQTT broker you can connect to. I use [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto)
+1. Have a MQTT broker you can connect to. I use [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto).
 
 2. Ensure you have a rtl_tcp instance that is listening for new connections. I use this [docker container](https://github.com/radiowitness/librtlsdr-docker).
 
