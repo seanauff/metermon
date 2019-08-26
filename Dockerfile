@@ -18,4 +18,4 @@ ADD metermon.py .
 
 RUN go-wrapper install
 
-ENTRYPOINT ["python", "./metermon.py"]
+CMD ["python", "./metermon.py"]
