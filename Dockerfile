@@ -16,6 +16,6 @@ RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher
 WORKDIR /go/src/github.com/bemasher/rtlamr
 ADD metermon.py .
 
-RUN go-wrapper install
+RUN go install
 
 CMD ["python", "./metermon.py"]
