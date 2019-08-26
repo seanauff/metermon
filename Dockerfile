@@ -1,8 +1,8 @@
 FROM golang:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils \
-    python-pip \
+    python3 \
+    python3-pip \
     python-setuptools \
     wget \
     git
