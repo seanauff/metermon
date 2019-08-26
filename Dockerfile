@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
