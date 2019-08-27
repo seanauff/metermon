@@ -2,12 +2,12 @@ FROM golang:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
-    python-pip \
+    python3-pip \
     python-setuptools \
     wget \
     git
 
-RUN pip install paho-mqtt
+RUN pip3 install paho-mqtt
 
 RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher/rtlamr &&\
     git clone https://github.com/bemasher/rtltcp.git /go/src/github.com/bemasher/rtltcp &&\
