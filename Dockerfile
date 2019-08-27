@@ -2,7 +2,7 @@ FROM golang:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
-    python-setuptools \
+    python3-setuptools \
     wget \
     git
 
