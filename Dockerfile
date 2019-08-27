@@ -3,10 +3,9 @@ FROM golang:buster
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-setuptools \
+    python3-pip \
     wget \
-    git
-
-RUN apt-get install -y --no-install-recommends python3-pip    
+    git 
 
 RUN pip3 install paho-mqtt
 
