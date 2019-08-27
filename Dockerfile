@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     git
 
-RUN apt install python3-pip    
+RUN apt-get install -y --no-install-recommends python3-pip    
 
 RUN pip3 install paho-mqtt
 
