@@ -42,6 +42,8 @@ The JSON message has a single level with the following keys:
 
 If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/raw` topic.
 
+If the `METERMON_SEND_BY_ID` environment variable is set to `true`, metermon will also send the processed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. This, combined with the use of the `RTLAMR_FILTERID` environment variable, can make it easier for parsing just a few meters into Home Assistant.
+
 ### Status Messages
 
 Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic via retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
