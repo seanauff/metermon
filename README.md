@@ -82,6 +82,7 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | RTLAMR_MSGTYPE    |all|List of message types to listen for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)|
 | RTLAMR_FILTERID   |               |List of meter IDs to look for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)       |
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr to the `[MQTT_TOPIC_PREFIX]/raw` topic      |
+| METERMON_SEND_BY_ID | false       |Set to `true` to enable sending the processed json to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. |
 
 ### Build the image yourself
 
