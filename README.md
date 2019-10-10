@@ -42,6 +42,8 @@ The JSON message has a single level with the following keys:
 
 If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/raw` topic.
 
+If the `METERMON_SEND_BY_ID` environment variable is set to `true`, metermon will also send the processed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. This, combined with the use of the `RTLAMR_FILTERID` environment variable, can make it easier for parsing just a few meters into Home Assistant.
+
 ### Status Messages
 
 Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic via retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
@@ -80,6 +82,7 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | RTLAMR_MSGTYPE    |all|List of message types to listen for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)|
 | RTLAMR_FILTERID   |               |List of meter IDs to look for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)       |
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr to the `[MQTT_TOPIC_PREFIX]/raw` topic      |
+| METERMON_SEND_BY_ID | false       |Set to `true` to enable sending the processed json to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. |
 
 ### Build the image yourself
 
