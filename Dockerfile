@@ -14,8 +14,9 @@ RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher
     git clone https://github.com/pkg/errors.git /go/src/github.com/pkg/errors
 
 WORKDIR /go/src/github.com/bemasher/rtlamr
-ADD metermon.py .
 
 RUN go install
+
+ADD metermon.py .
 
 CMD ["python3", "./metermon.py"]
