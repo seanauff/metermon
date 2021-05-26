@@ -15,8 +15,6 @@ MQTT_PASSWORD     = os.getenv('MQTT_PASSWORD',"")
 MQTT_TOPIC_PREFIX = os.getenv('MQTT_TOPIC_PREFIX',"metermon")
 RTL_TCP_SERVER    = os.getenv('RTL_TCP_SERVER',"127.0.0.1:1234")
 RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
-RTLAMR_FILTERID   = os.getenv('RTLAMR_FILTERID',"")
-RTLAMR_SYMBOL_LEN = os.getenv('RTLAMR_SYMBOL_LEN',"")
 RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
@@ -54,11 +52,6 @@ cmdargs = [
     f'-msgtype={RTLAMR_MSGTYPE}',
     f'-unique={RTLAMR_UNIQUE}',
 ]
-if RTLAMR_FILTERID:
-    cmdargs.append(f'-filterid={RTLAMR_FILTERID}')
-
-if RTLAMR_SYMBOL_LEN:
-    cmdargs.append(f'-symbollength={RTLAMR_SYMBOL_LEN}')
 
 proc = subprocess.Popen(cmdargs, stdout=subprocess.PIPE)
 
