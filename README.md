@@ -48,6 +48,10 @@ If the `METERMON_SEND_BY_ID` environment variable is set to `true`, metermon wil
 
 Metermon will report its status on the `[MQTT_TOPIC_PREFIX]/status` topic via retained messages. Metermon reports `Online` once it connects to the broker. Upon disconnect, the broker will report `Offline`.
 
+### Performance Tuning
+
+By adjusting the `RTLAMR_SYMBOL_LEN` environment variable, sample rates can be modified to reduce CPU load. See documentation of this feature [here](https://github.com/bemasher/rtlamr/wiki/Symbol-Length) and a discussion of the potential performance impacts [here](https://github.com/bemasher/rtlamr/issues/57#issuecomment-246166300).
+
 ## Running via Docker
 
 Pull the image. If using raspberry pi or similar use `arm` in place of `[tag]`. The `latest` tag will pull the `amd64` image:
@@ -81,6 +85,7 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | RTL_TCP_SERVER    |127.0.0.1:1234 |`server:port` that your rtl_tcp instance is listening on |
 | RTLAMR_MSGTYPE    |all|List of message types to listen for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)|
 | RTLAMR_FILTERID   |               |List of meter IDs to look for. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration)       |
+| RTLAMR_SYMBOL_LEN | 72            |Adjust sample rate by setting the length of each symbol. See [rtlamr wiki](https://github.com/bemasher/rtlamr/wiki/Symbol-Length)       |
 | RTLAMR_UNIQUE     | true          |Suppress duplicate messages from each meter. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration) |
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr to the `[MQTT_TOPIC_PREFIX]/raw` topic      |
 | METERMON_SEND_BY_ID | false       |Set to `true` to enable sending the processed json to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. |
