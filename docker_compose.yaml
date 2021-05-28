@@ -17,4 +17,6 @@ services:
       - RTLAMR_UNIQUE=true
       - METERMON_SEND_RAW=false
       - METERMON_SEND_BY_ID=false
+      #- METERMON_ELECTRIC_DIVISOR=100.0
+      #- METERMON_WATER_DIVISOR=10.0
     restart: unless-stopped

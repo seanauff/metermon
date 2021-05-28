@@ -18,6 +18,9 @@ RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
 RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
+METERMON_ELECTRIC_DIVISOR = os.getenv('METERMON_ELECTRIC_DIVISOR',100.0)
+#METERMON_GAS_DIVISOR = os.getenv('METERMON_GAS_DIVISOR', 1.0)
+METERMON_WATER_DIVISOR = os.getenv('METERMON_WATER_DIVISOR', 10.0)
 
 R900_LOOKUP = {
     "HISTORY": {
@@ -96,7 +99,7 @@ while True:
         msg['ID'] = str(data['Message']['ID'])
         if data['Message']['Type'] in (4,5,7,8): # electric meter
             msg['Type'] = "Electric"
-            msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
             msg['Unit'] = "kWh"
         elif data['Message']['Type'] in (2,9,12): # gas meter
             msg['Type'] = "Gas"
@@ -104,14 +107,14 @@ while True:
             msg['Unit'] = "ft^3"
         elif data['Message']['Type'] in (3,11,13): # water meter
             msg['Type'] = "Water"
-            msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
             msg['Unit'] = "gal"
     # SCM+ messages
     elif msg['Protocol'] == "SCM+":
         msg['ID'] = str(data['Message']['EndpointID'])
         if data['Message']['EndpointType'] in (4,5,7,8): # electric meter
             msg['Type'] = "Electric"
-            msg['Consumption'] = data['Message']['Consumption'] / 100.0 # convert to kWh
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
             msg['Unit'] = "kWh"
         elif data['Message']['EndpointType'] in (2,9,12,188): # gas meter
             msg['Type'] = "Gas"
@@ -119,25 +122,25 @@ while True:
             msg['Unit'] = "ft^3"
         elif data['Message']['EndpointType'] in (3,11,13): # water meter
             msg['Type'] = "Water"
-            msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
             msg['Unit'] = "gal"
     # IDM messages
     elif msg['Protocol'] == "IDM":
         msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        msg['Consumption'] = data['Message']['LastConsumptionCount'] / 100.0 # convert to kWh
+        msg['Consumption'] = data['Message']['LastConsumptionCount'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
         msg['Unit'] = "kWh"      
     # NetIDM messages
     elif msg['Protocol'] == "NetIDM":
         msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        msg['Consumption'] = data['Message']['LastConsumptionNet'] / 100.0 # convert to kWh
+        msg['Consumption'] = data['Message']['LastConsumptionNet'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
         msg['Unit'] = "kWh"
     # R900 messages
     elif msg['Protocol'] == "R900":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
-        msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
         msg['Unit'] = "gal"
         for attr, kind in R900_ATTRIBS.items():
             value = data['Message'].get(attr)
@@ -147,7 +150,7 @@ while True:
     elif msg['Protocol'] == "R900BCD":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
-        msg['Consumption'] = data['Message']['Consumption'] / 10.0 # convert to gal
+        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
         msg['Unit'] = "gal"
     # filter out cases where consumption value is negative        
     if msg['Consumption'] > 0:        

@@ -89,6 +89,8 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | RTLAMR_UNIQUE     | true          |Suppress duplicate messages from each meter. See [rtlamr config](https://github.com/bemasher/rtlamr/wiki/Configuration) |
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr to the `[MQTT_TOPIC_PREFIX]/raw` topic      |
 | METERMON_SEND_BY_ID | false       |Set to `true` to enable sending the processed json to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. |
+| METERMON_ELECTRIC_DIVISOR | 100.0 |Change this to correct the electricity units that your meter reports in to kWh |
+| METERMON_WATER_DIVISOR | 10.0     |Change this to correct the water units that your meter reports in to gal |
 
 ### Build the image yourself
 
