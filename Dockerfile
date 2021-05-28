@@ -19,4 +19,4 @@ RUN go install
 
 ADD metermon.py .
 
-CMD ["python3", "./metermon.py"]
+CMD ["python3", "-u", "./metermon.py"]
