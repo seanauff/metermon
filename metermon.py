@@ -15,7 +15,6 @@ MQTT_PASSWORD     = os.getenv('MQTT_PASSWORD',"")
 MQTT_TOPIC_PREFIX = os.getenv('MQTT_TOPIC_PREFIX',"metermon")
 RTL_TCP_SERVER    = os.getenv('RTL_TCP_SERVER',"127.0.0.1:1234")
 RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
-RTLAMR_FILTERID   = os.getenv('RTLAMR_FILTERID',"")
 RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
@@ -46,10 +45,15 @@ client.connect(MQTT_BROKER_HOST, port=MQTT_BROKER_PORT)
 client.loop_start()
 
 # start RTLAMR
-if RTLAMR_FILTERID:
-    proc = subprocess.Popen(['rtlamr', '-server='+RTL_TCP_SERVER,'-msgtype='+RTLAMR_MSGTYPE, '-filterid='+RTLAMR_FILTERID,'-format=json','-unique='+RTLAMR_UNIQUE],stdout=subprocess.PIPE)
-else:
-    proc = subprocess.Popen(['rtlamr', '-server='+RTL_TCP_SERVER,'-msgtype='+RTLAMR_MSGTYPE, '-format=json','-unique='+RTLAMR_UNIQUE],stdout=subprocess.PIPE)
+cmdargs = [
+    'rtlamr',
+    '-format=json',
+    f'-server={RTL_TCP_SERVER}',
+    f'-msgtype={RTLAMR_MSGTYPE}',
+    f'-unique={RTLAMR_UNIQUE}',
+]
+
+proc = subprocess.Popen(cmdargs, stdout=subprocess.PIPE)
 
 # read output of RTLAMR
 while True:
