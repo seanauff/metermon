@@ -22,29 +22,6 @@ METERMON_ELECTRIC_DIVISOR = os.getenv('METERMON_ELECTRIC_DIVISOR',100.0)
 #METERMON_GAS_DIVISOR = os.getenv('METERMON_GAS_DIVISOR', 1.0)
 METERMON_WATER_DIVISOR = os.getenv('METERMON_WATER_DIVISOR', 10.0)
 
-R900_LOOKUP = {
-    "HISTORY": {
-        0: "0",
-        1: "1-2",
-        2: "3-7",
-        3: "8-14",
-        4: "15-21",
-        5: "22-34",
-        6: "35+",
-    },
-    "INTENSITY": {
-        0: "None",
-        1: "Low",
-        2: "High",
-    }
-}
-R900_ATTRIBS = {
-    "Leak": "HISTORY",
-    "NoUse": "HISTORY",
-    "BackFlow": "INTENSITY",
-    "LeakNow": "INTENSITY",
-}
-
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     # print connection statement
@@ -142,10 +119,6 @@ while True:
         msg['ID'] = str(data['Message']['ID'])
         msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
         msg['Unit'] = "gal"
-        for attr, kind in R900_ATTRIBS.items():
-            value = data['Message'].get(attr)
-            if value is not None:
-                msg[attr] = R900_LOOKUP[kind][value]
     # R900bcd messages
     elif msg['Protocol'] == "R900BCD":
         msg['Type'] = "Water"
