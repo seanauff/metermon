@@ -18,9 +18,9 @@ RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
 RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
-METERMON_ELECTRIC_DIVISOR = os.getenv('METERMON_ELECTRIC_DIVISOR',100.0)
-#METERMON_GAS_DIVISOR = os.getenv('METERMON_GAS_DIVISOR', 1.0)
-METERMON_WATER_DIVISOR = os.getenv('METERMON_WATER_DIVISOR', 10.0)
+METERMON_ELECTRIC_DIVISOR = float(os.getenv('METERMON_ELECTRIC_DIVISOR',100.0))
+#METERMON_GAS_DIVISOR = float(os.getenv('METERMON_GAS_DIVISOR', 1.0))
+METERMON_WATER_DIVISOR = float(os.getenv('METERMON_WATER_DIVISOR', 10.0))
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
