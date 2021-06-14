@@ -97,7 +97,7 @@ while True:
             msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption']
             msg['Unit'] = "ft^3"
-        elif data['Message']['EndpointType'] in (3,11,13): # water meter
+        elif data['Message']['EndpointType'] in (3,11,13,171): # water meter
             msg['Type'] = "Water"
             msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
             msg['Unit'] = "gal"
