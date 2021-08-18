@@ -1,0 +1,13 @@
+# add this to your "sensor:" block
+# replace <meterID> with the unique ID of the meter you want to measure
+
+-  platform: mqtt
+     name: "Gas Meter Consumption"
+     state_topic: "metermon/<meterID>"
+     value_template: "{{ value_json.Consumption }}"
+     unit_of_measurement: 'ft^3'
+     availability:
+      - topic: "metermon/status"
+     payload_available: "Online"
+     payload_not_available: "Offline"
+     json_attributes_topic: "metermon/<meterID>"
