@@ -143,7 +143,8 @@ while True:
         msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
         msg['Unit'] = "gal"
         for attr, kind in R900_ATTRIBS.items():
-            if value := data['Message'].get(attr):
+            value = data['Message'].get(attr)
+            if value is not None:
                 try:
                     msg[attr] = R900_LOOKUP[kind][value]
                 except KeyError:
