@@ -11,7 +11,7 @@ services:
       #- MQTT_PASSWROD=pass
       - MQTT_TOPIC_PREFIX=metermon
       - RTL_TCP_SERVER=127.0.0.1:1234
-      - RTLAMR_MESGTYPE=all
+      - RTLAMR_MSGTYPE=all
       #- RTLAMR_FILTERID=
       #- RTLAMR_SYMBOLLENGTH=72
       - RTLAMR_UNIQUE=true
