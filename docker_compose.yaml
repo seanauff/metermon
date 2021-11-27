@@ -1,5 +1,14 @@
-version: '2'
+version: '3.7'
 services:
+
+  rtl_tcp:
+    image: librtlsdr
+    container_name: rtl_tcp
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    restart: unless-stopped
+    command: rtl_tcp -a 0.0.0.0
+
   metermon:
     image: seanauff/metermon:arm
     container_name: metermon
@@ -10,7 +19,7 @@ services:
       #- MQTT_USERNAME=user
       #- MQTT_PASSWROD=pass
       - MQTT_TOPIC_PREFIX=metermon
-      - RTL_TCP_SERVER=127.0.0.1:1234
+      - RTL_TCP_SERVER=rtl_tcp:1234
       - RTLAMR_MSGTYPE=all
       #- RTLAMR_FILTERID=
       #- RTLAMR_SYMBOLLENGTH=72
