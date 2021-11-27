@@ -1,5 +1,6 @@
 # add this to your "sensor:" block
 # replace <meterID> with the unique ID of the meter you want to measure
+# also make sure to run the metermon container with the "METERMON_SEND_BY_ID" environment variable set to true
 
 -  platform: mqtt
      name: "Gas Meter Consumption"
