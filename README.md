@@ -92,6 +92,10 @@ docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/met
 | METERMON_ELECTRIC_DIVISOR | 100.0 |Change this to correct the electricity units that your meter reports in to kWh |
 | METERMON_WATER_DIVISOR | 10.0     |Change this to correct the water units that your meter reports in to gal |
 
+### Troubleshooting
+
+If you receive meter messages with rtlamr but they are not showing up in metermon, it is likely that metermon doesn't recognize the "Endpoint Type" of your meter. This can be easily fixed so please open an issue with the rtlamr output and meter type (gas, electric, water) and I can add it.
+
 ### Build the image yourself
 
 Clone the repository and build the image:
