@@ -1,8 +1,8 @@
 # metermon
 
-Metermon is a dockerized [rtlamr] wrapper that connects to an existing rtl_tcp instance and outputs formatted messages over MQTT for consumption by other software (e.g. telegraf for storage in influxdb and display in grafana).
+Metermon is a dockerized [rtlamr] wrapper that connects to an existing rtl_tcp instance and outputs formatted messages over MQTT for consumption by other software (e.g. telegraf for storage in influxdb and display in grafana, or import into Home Assistant).
 
-The script can be run using docker (takes care of all dependencies) or standalone. It is design to run on Raspberry Pi or similar.
+The script can be run using docker (takes care of all dependencies) or standalone. It is designed to run on Raspberry Pi or similar.
 
 All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
