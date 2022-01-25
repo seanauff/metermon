@@ -17,7 +17,7 @@ services:
       - MQTT_BROKER_PORT=1883
       - MQTT_CLIENT_ID=metermon
       #- MQTT_USERNAME=user
-      #- MQTT_PASSWROD=pass
+      #- MQTT_PASSWORD=pass
       - MQTT_TOPIC_PREFIX=metermon
       - RTL_TCP_SERVER=rtl_tcp:1234
       - RTLAMR_MSGTYPE=all
