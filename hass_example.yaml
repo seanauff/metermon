@@ -2,13 +2,41 @@
 # replace <meterID> with the unique ID of the meter you want to measure
 # also make sure to run the metermon container with the "METERMON_SEND_BY_ID" environment variable set to true
 
--  platform: mqtt
-     name: "Gas Meter Consumption"
-     state_topic: "metermon/<meterID>"
+  -  platform: mqtt
+     name: "Electric Meter Consumption"
+     state_topic: "metermon/<meterID>" # <--- change this
      value_template: "{{ value_json.Consumption }}"
-     unit_of_measurement: 'ft^3'
+     unit_of_measurement: 'kWh'
+     device_class: 'energy'
+     state_class: 'total_increasing'
      availability:
       - topic: "metermon/status"
-     payload_available: "Online"
-     payload_not_available: "Offline"
-     json_attributes_topic: "metermon/<meterID>"
+        payload_available: "Online"
+        payload_not_available: "Offline"
+     json_attributes_topic: "metermon/<meterID>" # <--- change this
+
+  -  platform: mqtt
+     name: "Gas Meter Consumption"
+     state_topic: "metermon/<meterID>" # <--- change this
+     value_template: "{{ value_json.Consumption }}"
+     unit_of_measurement: 'ft³'
+     device_class: 'gas'
+     state_class: 'total_increasing'
+     availability:
+      - topic: "metermon/status"
+        payload_available: "Online"
+        payload_not_available: "Offline"
+     json_attributes_topic: "metermon/<meterID>" # <--- change this
+
+   -  platform: mqtt
+      name: "Water Meter Consumption"
+      state_topic: "metermon/<meterID>" # <--- change this
+      value_template: "{{ value_json.Consumption }}"
+      unit_of_measurement: 'gal'
+      #device_class:
+      state_class: 'total_increasing'
+      availability:
+       - topic: "metermon/status"
+         payload_available: "Online"
+         payload_not_available: "Offline"
+      json_attributes_topic: "metermon/<meterID>" # <--- change this
