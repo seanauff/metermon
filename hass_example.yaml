@@ -40,3 +40,16 @@
          payload_available: "Online"
          payload_not_available: "Offline"
       json_attributes_topic: "metermon/<meterID>" # <--- change this
+      
+ #create a 'utility_meter:' block
+ utility_meter:
+  gas_utility:
+    source: sensor.gas_meter_consumption
+    cycle: monthly #replace with daily|monthly|bimonthly, etc to have usage reset rather than always incrementing (as some meters do)
+  water_utility:
+    source: sensor.water_meter_consumption
+    cycle: monthly
+  gas_utility:
+    source: sensor.electric_meter_consumption
+    cycle: monthly 
+    
