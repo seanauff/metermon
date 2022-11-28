@@ -1,26 +1,27 @@
 #!/usr/bin/python
-import os
-import sys
 import json
 import subprocess
-import time
 import paho.mqtt.client as mqtt
+from python_settings import settings
 
 # read in needed env variables
-MQTT_BROKER_HOST  = os.getenv('MQTT_BROKER_HOST',"127.0.0.1")
-MQTT_BROKER_PORT  = int(os.getenv('MQTT_BROKER_PORT',1883))
-MQTT_CLIENT_ID    = os.getenv('MQTT_CLIENT_ID',"metermon")
-MQTT_USERNAME     = os.getenv('MQTT_USERNAME',"")
-MQTT_PASSWORD     = os.getenv('MQTT_PASSWORD',"")
-MQTT_TOPIC_PREFIX = os.getenv('MQTT_TOPIC_PREFIX',"metermon")
-RTL_TCP_SERVER    = os.getenv('RTL_TCP_SERVER',"127.0.0.1:1234")
-RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
-RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
-METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
-METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
-METERMON_ELECTRIC_DIVISOR = float(os.getenv('METERMON_ELECTRIC_DIVISOR',100.0))
-#METERMON_GAS_DIVISOR = float(os.getenv('METERMON_GAS_DIVISOR', 1.0))
-METERMON_WATER_DIVISOR = float(os.getenv('METERMON_WATER_DIVISOR', 10.0))
+MQTT_BROKER_HOST = settings.MQTT_HOST
+MQTT_BROKER_PORT = settings.MQTT_PORT
+MQTT_CLIENT_ID = settings.MQTT_CLIENT_ID
+MQTT_USERNAME = settings.MQTT_USER
+MQTT_PASSWORD = settings.MQTT_PASSWORD
+MQTT_TOPIC_PREFIX = settings.MQTT_TOPIC_PREFIX
+RTL_TCP_SERVER = settings.RTL_TCP_SERVER
+RTLAMR_MSGTYPE = settings.RTLAMR_MSGTYPE
+RTLAMR_UNIQUE = settings.RTLAMR_UNIQUE
+METERMON_SEND_RAW = settings.METERMON_SEND_RAW
+METERMON_SEND_BY_ID = settings.METERMON_SEND_BY_ID
+METERMON_ELECTRIC_DIVISOR = settings.METERMON_ELECTRIC_DIVISOR
+#METERMON_GAS_DIVISOR = settings.METERMON_GAS_DIVISOR
+METERMON_WATER_DIVISOR = settings.METERMON_WATER_DIVISOR
+METERS_FILTER = settings.METERS_FILTER
+BYPASS_METER_FILTER = settings.BYPASS_METER_FILTER
+
 
 R900_LOOKUP = {
     "HISTORY": {
@@ -62,7 +63,7 @@ client = mqtt.Client(client_id=MQTT_CLIENT_ID)
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
     print("Username and password set.")
-client.will_set(MQTT_TOPIC_PREFIX+"/status", payload="Offline", qos=1, retain=True) # set LWT     
+client.will_set(MQTT_TOPIC_PREFIX+"/status", payload="Offline", qos=1, retain=True) # set LWT
 client.on_connect = on_connect # on connect callback
 client.on_disconnect = on_disconnect # on disconnect callback
 
@@ -129,7 +130,7 @@ while True:
         msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
         msg['Consumption'] = data['Message']['LastConsumptionCount'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
-        msg['Unit'] = "kWh"      
+        msg['Unit'] = "kWh"
     # NetIDM messages
     elif msg['Protocol'] == "NetIDM":
         msg['Type'] = "Electric"
@@ -156,12 +157,14 @@ while True:
         msg['ID'] = str(data['Message']['ID'])
         msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
         msg['Unit'] = "gal"
-    # filter out cases where consumption value is negative        
-    if msg['Consumption'] > 0:        
-        client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
-        if METERMON_SEND_BY_ID.lower() == "true":
-            client.publish(MQTT_TOPIC_PREFIX+"/"+msg['ID'],json.dumps(msg)) # also publish by ID if enabled
-        print(json.dumps(msg)) # also print
-    # send raw json message if enabled
-    if METERMON_SEND_RAW.lower() == "true":
-        client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data)) # publish
+    # filter meter ID
+    if BYPASS_METER_FILTER or msg['ID'] in METERS_FILTER:
+        # filter out cases where consumption value is negative
+        if msg['Consumption'] > 0:
+            client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
+            if METERMON_SEND_BY_ID.lower() == "true":
+                client.publish(MQTT_TOPIC_PREFIX+"/"+msg['ID'],json.dumps(msg)) # also publish by ID if enabled
+            print(json.dumps(msg)) # also print
+        # send raw json message if enabled
+        if METERMON_SEND_RAW.lower() == "true":
+            client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data)) # publish
