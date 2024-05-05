@@ -58,7 +58,7 @@ def on_disconnect(client, userdata, flags, reason_code, properties):
         print(f"Unexpected disconnection from broker (RC={reason_code}). Attempting to reconnect...")
 
 # set up mqtt client
-client = mqtt.Client(client_id=MQTT_CLIENT_ID)
+client = mqtt.Client(callback_api_version=CallbackAPIVersion.VERSION2,client_id=MQTT_CLIENT_ID)
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
     print("Username and password set.")
