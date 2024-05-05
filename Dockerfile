@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     git 
 
-RUN pip3 install paho-mqtt
+RUN pip3 install paho-mqtt typing-extensions
 
 RUN git clone https://github.com/bemasher/rtlamr.git /go/src/github.com/bemasher/rtlamr &&\
     git clone https://github.com/bemasher/rtltcp.git /go/src/github.com/bemasher/rtltcp &&\

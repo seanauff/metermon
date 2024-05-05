@@ -46,19 +46,19 @@ R900_ATTRIBS = {
 }
 
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, reason_code, properties):
     # print connection statement
-    print(f"Connected to broker at {MQTT_BROKER_HOST}:{MQTT_BROKER_PORT} with result code {rc}: "+mqtt.connack_string(rc))
+    print(f"Connected to broker at {MQTT_BROKER_HOST}:{MQTT_BROKER_PORT} with reason code {reason_code}: "+mqtt.connack_string(reason_code))
 
     # set mqtt status message
     client.publish(MQTT_TOPIC_PREFIX+"/status",payload="Online",qos=1,retain=True)
 
-def on_disconnect(client, userdata, rc):
-    if rc != 0:
-        print(f"Unexpected disconnection from broker (RC={rc}). Attempting to reconnect...")
+def on_disconnect(client, userdata, flags, reason_code, properties):
+    if reason_code != 0:
+        print(f"Unexpected disconnection from broker (RC={reason_code}). Attempting to reconnect...")
 
 # set up mqtt client
-client = mqtt.Client(client_id=MQTT_CLIENT_ID)
+client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,client_id=MQTT_CLIENT_ID)
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
     print("Username and password set.")
