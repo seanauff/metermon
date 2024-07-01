@@ -112,7 +112,7 @@ while True:
     # SCM+ messages
     elif msg['Protocol'] == "SCM+":
         msg['ID'] = str(data['Message']['EndpointID'])
-        if data['Message']['EndpointType'] in (4,5,7,8,0x6E): # electric meter
+        if data['Message']['EndpointType'] in (4,5,7,8,110): # electric meter
             msg['Type'] = "Electric"
             msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
             msg['Unit'] = "kWh"
