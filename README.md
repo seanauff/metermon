@@ -16,7 +16,7 @@ All credit for [rtlamr] goes to [bemasher](https://github.com/bemasher).
 
 4. Subscribe to the mqtt output topic, `metermon/output`, with the data consumer of your choice.
 
-5. Process with your data consumer of choice. An [example telegraf config](/telegraf_example.conf) is provided.
+5. Process with your data consumer of choice. An example config for [Telegraf](/telegraf_example.conf) and [Home Assistant](/hass_example.yaml) is provided.
 
 ### Output format
 
@@ -54,23 +54,25 @@ By adjusting the `RTLAMR_SYMBOLLENGTH` environment variable, sample rates can be
 
 ## Running via Docker
 
-Pull the image. If using raspberry pi or similar use `arm` in place of `[tag]`. The `latest` tag will pull the `amd64` image:
+Pull the image. The `latest` tag has multiarch support, so it should pull the correct image for your system.
 
 ```shell
-docker pull seanauff/metermon:[tag]
+docker pull seanauff/metermon
 ```
 
 Start the container with all default environment variables:
 
 ```shell
-docker run -d seanauff/metermon:[tag]
+docker run -d seanauff/metermon
 ```
 
 Start the container with modified environment variables:
 
 ```shell
-docker run -d -e MQTT_BROKER_HOST=[host] -e RTL_TCP_SERVER=[server] seanauff/metermon:[tag]
+docker run -d -e MQTT_BROKER_HOST=<host> -e RTL_TCP_SERVER=<server> seanauff/metermon
 ```
+
+Alternativly, use docker-compose. See [docker_compose.yaml](/docker_compose.yaml)
 
 ### Environment Variables
 
