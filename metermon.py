@@ -87,12 +87,13 @@ while True:
     if not line:
         break
     data=json.loads(line)
-    msg=json.loads('{"Protocol":"Unknown","Type":"Unknown","ID":"Unknown","Consumption":0,"Unit":"Unknown"}')
+    msg=json.loads('{"Protocol":"Unknown","Time":"Unknown","Type":"Unknown","ID":"Unknown","Consumption":0,"Unit":"Unknown"}')
 
     # read data, create json objects, and publish MQTT message for every meter message received
 
     # set Protocol
     msg['Protocol'] = data['Type']
+    msg['Time'] = data['Time']
 
     # SCM messages
     if msg['Protocol'] == "SCM":
