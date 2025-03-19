@@ -1,5 +1,9 @@
 FROM golang:buster
 
+LABEL org.opencontainers.image.source=https://github.com/seanauff/metermon
+LABEL org.opencontainers.image.description="Metermon is a dockerized rtlamr wrapper that connects to an existing rtl_tcp instance and outputs formatted messages over MQTT for consumption by other software."
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-setuptools \
