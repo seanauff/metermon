@@ -10,7 +10,7 @@ services:
     command: rtl_tcp -a 0.0.0.0
 
   metermon:
-    image: seanauff/metermon:latest
+    image: ghcr.io/seanauff/metermon:latest
     container_name: metermon
     depends_on: rtl_tcp
     environment:

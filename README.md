@@ -57,19 +57,19 @@ By adjusting the `RTLAMR_SYMBOLLENGTH` environment variable, sample rates can be
 Pull the image. The `latest` tag has multiarch support, so it should pull the correct image for your system.
 
 ```shell
-docker pull seanauff/metermon
+docker pull ghcr.io/seanauff/metermon
 ```
 
 Start the container with all default environment variables:
 
 ```shell
-docker run -d seanauff/metermon
+docker run -d ghcr.io/seanauff/metermon
 ```
 
 Start the container with modified environment variables:
 
 ```shell
-docker run -d -e MQTT_BROKER_HOST=<host> -e RTL_TCP_SERVER=<server> seanauff/metermon
+docker run -d -e MQTT_BROKER_HOST=<host> -e RTL_TCP_SERVER=<server> ghcr.io/seanauff/metermon
 ```
 
 Alternativly, use docker-compose. See [docker_compose.yaml](/docker_compose.yaml)
