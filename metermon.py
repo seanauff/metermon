@@ -20,8 +20,11 @@ METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
 METERMON_RETAIN   = os.getenv('METERMON_RETAIN', "False")
 METERMON_ELECTRIC_DIVISOR = float(os.getenv('METERMON_ELECTRIC_DIVISOR',100.0))
-#METERMON_GAS_DIVISOR = float(os.getenv('METERMON_GAS_DIVISOR', 1.0))
+METERMON_GAS_DIVISOR = float(os.getenv('METERMON_GAS_DIVISOR', 1.0))
 METERMON_WATER_DIVISOR = float(os.getenv('METERMON_WATER_DIVISOR', 10.0))
+METERMON_ELECTRIC_UNIT = os.getenv('METERMON_ELECTRIC_UNIT',"kWh")
+METERMON_GAS_UNIT = os.getenv('METERMON_GAS_UNIT',"ft^3")
+METERMON_WATER_UNIT = os.getenv('METERMON_WATER_UNIT',"gal")
 
 # set retain flag based on Env var
 if METERMON_RETAIN.lower() == "true":
@@ -107,49 +110,49 @@ while True:
         msg['ID'] = str(data['Message']['ID'])
         if data['Message']['Type'] in (4,5,7,8): # electric meter
             msg['Type'] = "Electric"
-            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
-            msg['Unit'] = "kWh"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to desired unit (default=kWh)
+            msg['Unit'] = METERMON_ELECTRIC_UNIT
         elif data['Message']['Type'] in (2,9,12): # gas meter
             msg['Type'] = "Gas"
-            msg['Consumption'] = data['Message']['Consumption']
-            msg['Unit'] = "ft^3"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_GAS_DIVISOR # convert to desired unit (default=ft^3)
+            msg['Unit'] = METERMON_GAS_UNIT
         elif data['Message']['Type'] in (3,11,13): # water meter
             msg['Type'] = "Water"
-            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
-            msg['Unit'] = "gal"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to desired unit (default=gal)
+            msg['Unit'] = METERMON_WATER_UNIT
     # SCM+ messages
     elif msg['Protocol'] == "SCM+":
         msg['ID'] = str(data['Message']['EndpointID'])
         if data['Message']['EndpointType'] in (4,5,7,8,110): # electric meter
             msg['Type'] = "Electric"
-            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
-            msg['Unit'] = "kWh"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to desired unit (default=kWh)
+            msg['Unit'] = METERMON_ELECTRIC_UNIT
         elif data['Message']['EndpointType'] in (2,9,12,156,188,220): # gas meter
             msg['Type'] = "Gas"
-            msg['Consumption'] = data['Message']['Consumption']
-            msg['Unit'] = "ft^3"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_GAS_DIVISOR # convert to desired unit (default=ft^3)
+            msg['Unit'] = METERMON_GAS_UNIT
         elif data['Message']['EndpointType'] in (3,11,13,27,171): # water meter
             msg['Type'] = "Water"
-            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
-            msg['Unit'] = "gal"
+            msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to desired unit (default=gal)
+            msg['Unit'] = METERMON_WATER_UNIT
     # IDM messages
     elif msg['Protocol'] == "IDM":
         msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        msg['Consumption'] = data['Message']['LastConsumptionCount'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
-        msg['Unit'] = "kWh"      
+        msg['Consumption'] = data['Message']['LastConsumptionCount'] / METERMON_ELECTRIC_DIVISOR # convert to desired unit (default=kWh)
+        msg['Unit'] = METERMON_ELECTRIC_UNIT      
     # NetIDM messages
     elif msg['Protocol'] == "NetIDM":
         msg['Type'] = "Electric"
         msg['ID'] = str(data['Message']['ERTSerialNumber'])
-        msg['Consumption'] = data['Message']['LastConsumptionNet'] / METERMON_ELECTRIC_DIVISOR # convert to kWh
-        msg['Unit'] = "kWh"
+        msg['Consumption'] = data['Message']['LastConsumptionNet'] / METERMON_ELECTRIC_DIVISOR # convert to desired unit (default=kWh)
+        msg['Unit'] = METERMON_ELECTRIC_UNIT
     # R900 messages
     elif msg['Protocol'] == "R900":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
-        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
-        msg['Unit'] = "gal"
+        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to desired unit (default=gal)
+        msg['Unit'] = METERMON_WATER_UNIT
         for attr, kind in R900_ATTRIBS.items():
             value = data['Message'].get(attr)
             if value is not None:
@@ -162,8 +165,8 @@ while True:
     elif msg['Protocol'] == "R900BCD":
         msg['Type'] = "Water"
         msg['ID'] = str(data['Message']['ID'])
-        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to gal
-        msg['Unit'] = "gal"
+        msg['Consumption'] = data['Message']['Consumption'] / METERMON_WATER_DIVISOR # convert to desired unit (default=gal)
+        msg['Unit'] = METERMON_WATER_UNIT
     # filter out cases where consumption value is negative        
     if msg['Consumption'] > 0:        
         client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg), retain=RETAIN_FLAG) # publish

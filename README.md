@@ -38,7 +38,7 @@ The JSON message has a single level with the following keys:
 |Type        | Electric   |The meter type of the received message, converted to generic utility type, e.g. "Electric", "Gas", or "Water". See [here](https://github.com/bemasher/rtlamr/blob/master/meters.md) for mapping of numeric ERT type.           |
 |ID          |29163678    |The unique ID of the meter the received message originated from.           |
 |Consumption |96948.54    |The current consumption value in the received message, processed into standard units (Ex.: electric meters report in 1/100 kWh, metermon divides this value by 100 to get kWh).            |
-|Unit        | kWh        |The unit that metermon has converted the value to. Metermon decides this by knowing the type of meter and/or the protocol.           |
+|Unit        | kWh        |The unit that metermon has converted the value to. Metermon decides this by knowing the type of meter and/or the protocol. The defaults can be overridden with environment variables.          |
 
 If the `METERMON_SEND_RAW` environment variable is set to `true`, metermon will send the entire unprocessed JSON message received from [rtlamr] to the `[MQTT_TOPIC_PREFIX]/raw` topic.
 
@@ -92,8 +92,16 @@ Alternativly, use docker-compose. See [docker_compose.yaml](/docker_compose.yaml
 | METERMON_SEND_RAW | false         |Set to `true` to enable sending the raw json from rtlamr to the `[MQTT_TOPIC_PREFIX]/raw` topic      |
 | METERMON_SEND_BY_ID | false       |Set to `true` to enable sending the processed json to the `[MQTT_TOPIC_PREFIX]/[UNIQUE_ID_OF_METER]` topic. |
 | METERMON_RETAIN   | false         |Controls the `retain` flag when publishing messages.|
-| METERMON_ELECTRIC_DIVISOR | 100.0 |Change this to correct the electricity units that your meter reports in to kWh |
-| METERMON_WATER_DIVISOR | 10.0     |Change this to correct the water units that your meter reports in to gal |
+| METERMON_ELECTRIC_DIVISOR | 100.0 |Change this to correct the electricity units that your meter reports |
+| METERMON_GAS_DIVISOR | 1.0 |Change this to correct the electricity units that your meter reports |
+| METERMON_WATER_DIVISOR | 10.0     |Change this to correct the water units that your meter reports |
+| METERMON_ELECTRIC_UNIT | kWh      |The reported unit for the electricity consumption measurement |
+| METERMON_GAS_UNIT | ft^3      |The reported unit for the electricity consumption measurement |
+| METERMON_WATER_UNIT | gal      |The reported unit for the electricity consumption measurement |
+
+### Setting Divisors and Units
+
+The raw consumption value returned by the meter is always an integer, so it may not be in a useful unit and is thus converted by metermon. For example, electric meters typically report consumption values in units of 1/100 kWh. In order to get the more useful unit of kWh, we divide the raw value by 100 before sending it over MQTT. This number (100 in the electric meter example) is called the divisor, and can be changed by setting the environment variables described above. The defaults are based on meters in the US, so you may need to change these values for use in other parts of the world. Additionally, the reported unit string can be changed as well. However, please note that changing the unit string does not directly do any unit conversion math; you must ensure the divisor is set correctly as well.
 
 ### Troubleshooting
 

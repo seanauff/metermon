@@ -29,5 +29,9 @@ services:
       - METERMON_SEND_BY_ID=false
       - METERMON_RETAIN=false
       #- METERMON_ELECTRIC_DIVISOR=100.0
+      #- METERMON_GAS_DIVISOR=1.0
       #- METERMON_WATER_DIVISOR=10.0
+      #- METERMON_ELECTRIC_UNIT=kWh
+      #- METERMON_GAS_UNIT=ft^3
+      #- METERMON_WATER_UNIT=gal
     restart: unless-stopped
