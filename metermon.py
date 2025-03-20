@@ -18,9 +18,16 @@ RTLAMR_MSGTYPE    = os.getenv('RTLAMR_MSGTYPE',"all")
 RTLAMR_UNIQUE     = os.getenv('RTLAMR_UNIQUE',"true")
 METERMON_SEND_RAW = os.getenv('METERMON_SEND_RAW',"False")
 METERMON_SEND_BY_ID = os.getenv('METERMON_SEND_BY_ID', "False")
+METERMON_RETAIN   = os.getenv('METERMON_RETAIN', "False")
 METERMON_ELECTRIC_DIVISOR = float(os.getenv('METERMON_ELECTRIC_DIVISOR',100.0))
 #METERMON_GAS_DIVISOR = float(os.getenv('METERMON_GAS_DIVISOR', 1.0))
 METERMON_WATER_DIVISOR = float(os.getenv('METERMON_WATER_DIVISOR', 10.0))
+
+# set retain flag based on Env var
+if METERMON_RETAIN.lower() == "true":
+    RETAIN_FLAG = True
+else:
+    RETAIN_FLAG = False
 
 R900_LOOKUP = {
     "HISTORY": {
@@ -62,7 +69,7 @@ client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,clien
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME,MQTT_PASSWORD)
     print("Username and password set.")
-client.will_set(MQTT_TOPIC_PREFIX+"/status", payload="Offline", qos=1, retain=True) # set LWT     
+client.will_set(MQTT_TOPIC_PREFIX+"/status", payload="Offline", qos=1, retain=True) # set LWT (always retained)
 client.on_connect = on_connect # on connect callback
 client.on_disconnect = on_disconnect # on disconnect callback
 
@@ -159,10 +166,10 @@ while True:
         msg['Unit'] = "gal"
     # filter out cases where consumption value is negative        
     if msg['Consumption'] > 0:        
-        client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg)) # publish
+        client.publish(MQTT_TOPIC_PREFIX+"/output",json.dumps(msg), retain=RETAIN_FLAG) # publish
         if METERMON_SEND_BY_ID.lower() == "true":
-            client.publish(MQTT_TOPIC_PREFIX+"/"+msg['ID'],json.dumps(msg)) # also publish by ID if enabled
+            client.publish(MQTT_TOPIC_PREFIX+"/"+msg['ID'],json.dumps(msg), retain=RETAIN_FLAG) # also publish by ID if enabled
         print(json.dumps(msg)) # also print
     # send raw json message if enabled
     if METERMON_SEND_RAW.lower() == "true":
-        client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data)) # publish
+        client.publish(MQTT_TOPIC_PREFIX+"/raw",json.dumps(data), retain=RETAIN_FLAG) # publish
