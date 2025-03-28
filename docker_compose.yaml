@@ -2,32 +2,36 @@ version: '3.7'
 services:
 
   rtl_tcp:
-    image: librtlsdr
-    container_name: rtl_tcp
+    image: kosdk/rtl-tcp
+    container_name:
     devices:
-      - /dev/bus/usb:/dev/bus/usb
-    restart: unless-stopped
-    command: rtl_tcp -a 0.0.0.0
+      - /dev/bus/usb:/dev/bus/usb # Mount the USB devices to the container. Ensure your host has the RTL-SDR device connected.
+    restart: unless-stopped # Restart the container unless it is explicitly stopped
+    environment:
+      - DEVICE=0  # Use the first RTL-SDR device found. Change to 1, 2, etc. for other devices.
+      - LISTEN_IP=0.0.0.0 # Listen on all interfaces. Change to a specific IP if needed.
+      - GAIN=25.4 # Gain in dB. Adjust based on your RTL-SDR device and signal strength.
+      - PPM_ERROR=28 # Adjust this based on your RTL-SDR device's calibration. You can use 0 if unsure.
 
   metermon:
-    image: ghcr.io/seanauff/metermon:latest
+    image: ghcr.io/seanauff/metermon:latest # Use the latest image built and pushed by the GitHub Actions workflow
     container_name: metermon
-    depends_on: rtl_tcp
+    depends_on: rtl_tcp # Ensure rtl_tcp is started before metermon
     environment:
-      - MQTT_BROKER_HOST=127.0.0.1
-      - MQTT_BROKER_PORT=1883
-      - MQTT_CLIENT_ID=metermon
-      #- MQTT_USERNAME=user
-      #- MQTT_PASSWORD=pass
-      - MQTT_TOPIC_PREFIX=metermon
-      - RTL_TCP_SERVER=rtl_tcp:1234
-      - RTLAMR_MSGTYPE=all
+      - MQTT_BROKER_HOST=127.0.0.1 # Use the host's IP address or hostname where the MQTT broker is running.
+      - MQTT_BROKER_PORT=1883 # Default MQTT port. Change if your broker uses a different port.
+      - MQTT_CLIENT_ID=metermon # Unique client ID for the MQTT connection. Change if you have multiple instances.
+      #- MQTT_USERNAME=user # Uncomment and set if your MQTT broker requires authentication.
+      #- MQTT_PASSWORD=pass # Uncomment and set if your MQTT broker requires authentication.
+      - MQTT_TOPIC_PREFIX=metermon # Prefix for the MQTT topics. Change if you want a different structure.
+      - RTL_TCP_SERVER=rtl_tcp:28 # Address and port of the rtl_tcp server. Change if your rtl_tcp server is on a different host or port.
+      - RTLAMR_MSGTYPE=all # Message type to decode. See rtlamr documentation for available options.
       #- RTLAMR_FILTERID=
       #- RTLAMR_SYMBOLLENGTH=72
       - RTLAMR_UNIQUE=true
-      - METERMON_SEND_RAW=false
-      - METERMON_SEND_BY_ID=false
-      - METERMON_RETAIN=false
+      - METERMON_SEND_RAW=false # Set to true if you want to send raw messages to MQTT.
+      - METERMON_SEND_BY_ID=false # Set to true if you want to send messages by ID.
+      - METERMON_RETAIN=false # Set to true if you want MQTT messages to be retained.
       #- METERMON_ELECTRIC_DIVISOR=100.0
       #- METERMON_GAS_DIVISOR=1.0
       #- METERMON_WATER_DIVISOR=10.0
