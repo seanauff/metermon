@@ -127,7 +127,7 @@ while True:
             msg['Type'] = "Electric"
             msg['Consumption'] = data['Message']['Consumption'] / METERMON_ELECTRIC_DIVISOR # convert to desired unit (default=kWh)
             msg['Unit'] = METERMON_ELECTRIC_UNIT
-        elif data['Message']['EndpointType'] in (2,9,12,156,188,220): # gas meter
+        elif data['Message']['EndpointType'] in (2,9,12,156,188,220,29715): # gas meter
             msg['Type'] = "Gas"
             msg['Consumption'] = data['Message']['Consumption'] / METERMON_GAS_DIVISOR # convert to desired unit (default=ft^3)
             msg['Unit'] = METERMON_GAS_UNIT
